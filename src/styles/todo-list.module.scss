@@ -15,10 +15,8 @@
     list-style: none;
     height: calc(70vh - 67px);
     width: 100%;
-    overflow-y: scroll;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: stretch;
+    overflow-y: auto;
+    
     li + li {
       margin-top: $spacing-xl;
     }

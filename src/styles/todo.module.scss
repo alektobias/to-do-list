@@ -5,7 +5,6 @@
   grid-template-columns: auto 32px 32px 32px;
   grid-gap: $spacing-s;
   align-items: center;
-  // justify-content: center;
   width: 100%;
   >:not(:first-child) {
     margin: auto auto;
