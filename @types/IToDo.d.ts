@@ -1,4 +1,4 @@
-export interface IToDo {
+declare interface IToDo {
   title: string;
   description: string;
   done: boolean;
@@ -6,4 +6,4 @@ export interface IToDo {
   updatedAt: string;
 }
 
-export type IToDoEssencial = Pick<IToDo, "title" | "description">;
+declare type IToDoEssencial = Pick<IToDo, "title" | "description">;

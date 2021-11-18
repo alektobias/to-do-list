@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IToDo, IToDoEssencial } from "./types/IToDo";
 
 export const todoSlice = createSlice({
   name: "todo",
