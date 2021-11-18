@@ -1,0 +1,39 @@
+@import 'variables.scss';
+
+.ToDo {
+  display: grid;
+  grid-template-columns: auto 32px 32px 32px;
+  grid-gap: $spacing-s;
+  align-items: center;
+  // justify-content: center;
+  width: 100%;
+  >:not(:first-child) {
+    margin: auto auto;
+  }
+
+  > span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 430px;
+    width: 100%;
+    strong {
+      max-width: 430px;
+      margin-bottom: $spacing-s;
+      color: $text-color;
+    }
+    p {
+      max-width: 430px;
+      text-align: left;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      height: auto;
+      color: #999;
+      font-weight: 300;
+      line-height: 1.125;
+    }
+  }
+  @media (max-width: $breakpoint-mobile) {
+    grid-gap: $spacing-xs;
+  }
+}

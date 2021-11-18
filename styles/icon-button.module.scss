@@ -1,0 +1,51 @@
+@import 'variables.scss';
+
+$base-color: #999;
+$button-size: 32px;
+$icon-size: 16px;
+$button-size-mobile: 24px;
+$icon-size-mobile: 12px;
+
+.IconButton {
+  background: transparent;
+  width: $button-size;
+  height: $button-size;
+  border-radius: 50%;
+  border: 1.75px solid $base-color;
+  font-size: 1.2rem;
+  color: $text-color;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border 0.2s;
+  
+  svg {
+    color: $base-color;
+    width: $icon-size;
+    height: $icon-size;
+  }
+
+  &:hover {
+    border: 1px solid $text-color;
+    svg {
+      color: $text-color;
+    }
+  }
+  @media (max-width: $breakpoint-mobile) {
+    width:$button-size-mobile;
+    height: $button-size-mobile;
+    svg {
+      width: $icon-size-mobile;
+      height: $icon-size-mobile;
+    }
+  }
+    
+  
+}
+.ButtonChecked {
+  border-color: green;
+  svg {
+    color: green;
+  }
+}

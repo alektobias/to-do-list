@@ -1,8 +1,9 @@
 import React from "react";
+import { FiCheck, FiEdit3, FiTrash2 } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { removeTodo, toggleDone } from "../../../store/todo/reducer";
-import { IToDo } from "../../../store/todo/types/IToDo";
-
+import styles from "../../../styles/todo.module.scss";
+import IconButton from "../../IconButton";
 type ToDoListItemProps = IToDo & {
   handleEditModalToggle: (key: string) => void;
 };
@@ -20,12 +21,20 @@ const ToDo: React.FC<ToDoListItemProps> = ({
   const handleRemove = () => dispatch(removeTodo(createdAt));
 
   return (
-    <li key={createdAt}>
-      <strong>{title}</strong>
-      <p>{description}</p>
-      <button onClick={handleDone}>{done ? "Done" : "Not Done"}</button>
-      <button onClick={() => handleEditModalToggle(createdAt)}>edit</button>
-      <button onClick={handleRemove}>remove</button>
+    <li className={styles.ToDo} key={createdAt}>
+      <span>
+        <strong>{title}</strong>
+        <p>{description}</p>
+      </span>
+      <IconButton done={done} onClick={handleDone}>
+        <FiCheck />
+      </IconButton>
+      <IconButton onClick={() => handleEditModalToggle(createdAt)}>
+        <FiEdit3 />
+      </IconButton>
+      <IconButton onClick={handleRemove}>
+        <FiTrash2 />
+      </IconButton>
     </li>
   );
 };

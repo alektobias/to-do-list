@@ -1,0 +1,32 @@
+@import 'variables.scss';
+
+.ToDoList {
+  max-width: 550px;
+  width: 100%;
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacing-l;
+    padding-bottom: $spacing-s;
+    border-bottom: 3px solid #e8e8e8;
+  }
+
+  ul {
+    list-style: none;
+    height: calc(70vh - 67px);
+    width: 100%;
+    overflow-y: scroll;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: stretch;
+    li + li {
+      margin-top: $spacing-xl;
+    }
+  }
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-m;
+    header {
+      padding-bottom: $spacing-s;
+    }
+  }
+}

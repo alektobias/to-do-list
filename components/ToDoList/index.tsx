@@ -1,24 +1,34 @@
-import React, { useState } from "react";
-import ReactModal from "react-modal";
+import React, { useMemo, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, editTodo } from "../../store/todo/reducer";
-import { IToDo, IToDoEssencial } from "../../store/todo/types/IToDo";
 import ToDo from "./ToDo";
+import styles from "../../styles/todo-list.module.scss";
+import Button from "../IconButton";
+import { FiPlus } from "react-icons/fi";
+import ModalForm from "./ModalForm";
 
-type IModalData = IToDoEssencial & { key?: string };
+const emptyTodo: IModalData = { description: "", title: "" };
 
 const TodoList: React.FC = () => {
   const todoList = useSelector((state: { todo: IToDo[] }) => state.todo);
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalType, setModalType] = useState<"add" | "edit">("add");
-  const [modalData, setModalData] = useState<IModalData>({} as IModalData);
+  const [modalType, setModalType] = useState<IModalType>("add");
+  const [modalData, setModalData] = useState<IModalData>(emptyTodo);
 
+  const emptyForm = useMemo(
+    () =>
+      (modalData.title === "" && modalData.description === "") ||
+      modalData === emptyTodo ||
+      modalData === Object.assign(emptyTodo, { key: "" }),
+    [modalData]
+  );
   const handleModalToggle = () => setIsModalOpen(!isModalOpen);
 
   const handleModalClose = () => {
-    setModalData({ title: "", description: "", key: "" });
+    setModalData(emptyTodo);
     setIsModalOpen(false);
     setModalType("add");
   };
@@ -29,16 +39,16 @@ const TodoList: React.FC = () => {
 
   const handleAddToDo = () => {
     dispatch(addTodo({ ...modalData }));
-    handleModalToggle();
+    handleModalClose();
   };
 
   const handleEditToDo = () => {
-    console.log(modalData);
     dispatch(
       editTodo({
         title: modalData.title,
         description: modalData.description,
-        key: modalData.key || "", // bad implementation but needed because I use the created at as key
+        // bad implementation but needed because I use createdAt property as key, in a real app I would use a real key with UUID
+        key: modalData.key || "",
       })
     );
     handleModalClose();
@@ -46,6 +56,7 @@ const TodoList: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (emptyForm) return;
     modalType === "add" ? handleAddToDo() : handleEditToDo();
   };
 
@@ -59,10 +70,12 @@ const TodoList: React.FC = () => {
   };
 
   return (
-    <section>
+    <section className={styles.ToDoList}>
       <header>
-        <strong>To Do List</strong>
-        <button onClick={handleModalToggle}>+</button>
+        <h1>To Do List</h1>
+        <Button onClick={handleModalToggle}>
+          <FiPlus />
+        </Button>
       </header>
       <ul>
         {todoList.map((item) => (
@@ -73,27 +86,15 @@ const TodoList: React.FC = () => {
           />
         ))}
       </ul>
-      <ReactModal isOpen={isModalOpen} onAfterClose={handleModalClose}>
-        <form onSubmit={handleFormSubmit}>
-          <label>
-            <strong>Title</strong>
-            <input
-              name="title"
-              value={modalData.title}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            <strong>Description</strong>
-            <textarea
-              name="description"
-              value={modalData.description}
-              onChange={handleInputChange}
-            />
-          </label>
-          <button type="submit">Add</button>
-        </form>
-      </ReactModal>
+      <ModalForm
+        type={modalType}
+        isModalOpen={isModalOpen}
+        data={modalData}
+        enableSubmit={!emptyForm}
+        handleFormSubmit={handleFormSubmit}
+        handleInputChange={handleInputChange}
+        handleModalClose={handleModalClose}
+      />
     </section>
   );
 };
